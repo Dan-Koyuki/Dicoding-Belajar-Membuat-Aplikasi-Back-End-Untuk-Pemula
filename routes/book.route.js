@@ -36,4 +36,19 @@ router.get("/", async (req, res) => {
   }
 });
 
+router.get("/:bookId", async (req, res) => {
+  try {
+    const bookResponse = await bookController.retrieveBook(req.params.bookId);
+    res.status(bookResponse.status_code).json({
+      data: {
+        book: bookResponse.book,
+      },
+    });
+  } catch (error) {
+    res.status(error.statusCode).json({
+      message: error.message,
+    });
+  }
+});
+
 module.exports = router;

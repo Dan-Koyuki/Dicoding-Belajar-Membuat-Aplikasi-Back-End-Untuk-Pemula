@@ -63,6 +63,10 @@ class BookController {
     return {status_code: 201, message: "Buku berhasil ditambahkan", bookId: newBook.bookId};
   };
 
+  /**
+   * retrieve: retrieve all available books
+   * @return {object} : status code of the action along with data of all available book
+   */
   retrieve = async () => {
     const simplifiedBookCollection = BookCollection.map((book) => ({
       id: book.bookId,
@@ -73,6 +77,23 @@ class BookController {
     return {
       status_code: 200,
       bookCollection: simplifiedBookCollection,
+    };
+  };
+
+  /**
+   * retrieveBook : get one specific book based on its ID
+   * @param {string} bookID
+   */
+  retrieveBook = async (bookID) => {
+    const book = BookCollection.find((b) => b.bookId === bookID);
+
+    if (!book) {
+      throw new CustomError("Buku tidak ditemukan", 404);
+    }
+
+    return {
+      status_code: 200,
+      book: book,
     };
   };
 }
