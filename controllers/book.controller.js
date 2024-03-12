@@ -22,7 +22,7 @@ class BookController {
     reading,
   }) => {
     if (!name) {
-      throw new Error("Gagal menambahkan buku. Mohon isi nama buku", 400);
+      throw new CustomError("Gagal menambahkan buku. Mohon isi nama buku", 400);
     }
 
     const yearNum = parseInt(year);
@@ -37,7 +37,7 @@ class BookController {
     }
 
     if (readPageNum > pageCountNum) {
-      throw new Error(
+      throw new CustomError(
           "Gagal menambahkan buku. readPage tidak boleh lebih besar dari pageCount",
           400,
       );
