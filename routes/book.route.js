@@ -7,9 +7,32 @@ const router = express.Router();
 router.post("/", async (req, res) => {
   try {
     const bookResponse = await bookController.insert(req.body);
-    res.status(200).json(bookResponse);
+    res.status(bookResponse.status_code).json({
+      status: 'success',
+      message: bookResponse.message,
+      data: bookResponse.bookId,
+    });
   } catch (error) {
-    res.status(500).json({error: error.message});
+    res.status(error.statusCode).json({
+      status: 'fail',
+      message: error.message,
+    });
+  }
+});
+
+router.get("/", async (req, res) => {
+  try {
+    const bookResponse = await bookController.retrieve();
+    res.status(bookResponse.status_code).json({
+      status: 'success',
+      data: {
+        books: bookResponse.bookCollection,
+      },
+    });
+  } catch (error) {
+    res.status(400).json({
+      message: "Something went wrong, Try again later!",
+    });
   }
 });
 
