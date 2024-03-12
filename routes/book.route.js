@@ -45,14 +45,14 @@ router.get("/", async (req, res) => {
       }
 
       if (req.query.reading) {
-        if (req.query.reading !== "0" && req.query.reading !== 1) {
+        if (req.query.reading !== "0" && req.query.reading !== '1') {
           throw new Error("Invalid value of 'reading'!");
         }
         query2 = req.query.reading;
       }
 
       if (req.query.finished) {
-        if (req.query.finished !== '0' && req.query.finished !== 1) {
+        if (req.query.finished !== '0' && req.query.finished !== '1') {
           throw new Error("Invalid value of \'finished\'!");
         }
         query3 = req.query.finished;
