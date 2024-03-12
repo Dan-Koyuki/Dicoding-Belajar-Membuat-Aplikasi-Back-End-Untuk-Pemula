@@ -81,6 +81,40 @@ class BookController {
   };
 
   /**
+   * @param {string} query1
+   * @param {number} query2
+   * @param {number} query3
+   */
+  retrieve = async (query1, query2, query3) => {
+    let filteredBook = BookCollection;
+    const q2 = query2 === '1';
+    const q3 = query3 === '1';
+
+    if (query1) {
+      filteredBook = filteredBook.filter((book) => book.name.toLowerCase().includes(query1));
+    };
+
+    if (query2) {
+      filteredBook = filteredBook.filter((book) => book.reading === q2);
+    }
+
+    if (query3) {
+      filteredBook = filteredBook.filter((book) => book.finished === q3);
+    }
+
+    const simplifiedBookCollection = filteredBook.map((book) => ({
+      id: book.bookId,
+      name: book.name,
+      publisher: book.publisher,
+    }));
+
+    return {
+      status_code: 200,
+      bookCollection: simplifiedBookCollection,
+    };
+  };
+
+  /**
    * retrieveBook : get one specific book based on its ID
    * @param {string} bookID
    */
