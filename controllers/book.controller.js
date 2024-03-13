@@ -149,7 +149,7 @@ class BookController {
 
     return {
       status_code: 200,
-      message: "Buku berhasil dihapus"
+      message: "Buku berhasil dihapus",
     };
   };
 }
