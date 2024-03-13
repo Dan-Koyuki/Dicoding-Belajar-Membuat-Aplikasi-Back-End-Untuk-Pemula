@@ -1,10 +1,10 @@
 /* eslint-disable new-cap */
-const express = require("express");
-const {default: bookController} = require("../controllers/book.controller");
+import bookController from '../controllers/book.controller.js';
+import express from 'express';
 
-const router = express.Router();
+const BookRouter = express.Router();
 
-router.post("/", async (req, res) => {
+BookRouter.post("/", async (req, res) => {
   try {
     const bookResponse = await bookController.insert(req.body);
     res.status(bookResponse.status_code).json({
@@ -20,7 +20,7 @@ router.post("/", async (req, res) => {
   }
 });
 
-router.get("/", async (req, res) => {
+BookRouter.get("/", async (req, res) => {
   if (!req.query) {
     try {
       const bookResponse = await bookController.retrieve();
@@ -74,7 +74,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.get("/:bookId", async (req, res) => {
+BookRouter.get("/:bookId", async (req, res) => {
   try {
     const bookResponse = await bookController.retrieveBook(req.params.bookId);
     res.status(bookResponse.status_code).json({
@@ -91,7 +91,7 @@ router.get("/:bookId", async (req, res) => {
   }
 });
 
-router.delete("/:bookId", async (req, res) => {
+BookRouter.delete("/:bookId", async (req, res) => {
   try {
     const bookResponse= await bookController.remove(req.params.bookId);
     res.status(bookResponse.status_code).json({
@@ -106,4 +106,5 @@ router.delete("/:bookId", async (req, res) => {
   }
 });
 
-module.exports = router;
+
+export default BookRouter;

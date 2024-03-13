@@ -1,6 +1,6 @@
-const express = require('express');
-const cors = require('cors');
-const books = require('../routes/book.route');
+import express, {json} from 'express';
+import cors from 'cors';
+import BookRouter from '../routes/book.route.js';
 
 const app = express();
 
@@ -22,8 +22,8 @@ app.options('*', (req, res) => {
 });
 
 // Routes
-app.use(express.json());
-app.use('/books', books);
+app.use(json());
+app.use('/books', BookRouter);
 
 app.get('/', (req, res) => {
   res.status(200)

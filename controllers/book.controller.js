@@ -1,6 +1,6 @@
-import BookCollection from "../src/book.collection";
-import CustomError from "../utils/customError.utils";
-const {v4: uuidv4} = require("uuid");
+import BookCollection from "../src/book.collection.js";
+import CustomError from "../utils/customError.utils.js";
+import {v4 as uuidv4} from "uuid";
 
 /**
  * Class for bookController
