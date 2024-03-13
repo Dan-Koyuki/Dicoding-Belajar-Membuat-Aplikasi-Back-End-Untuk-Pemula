@@ -43,7 +43,7 @@ class BookController {
       );
     }
     const newBook = {
-      bookId: uuidv4(),
+      id: uuidv4(),
       name: name,
       year: yearNum,
       author: author,
@@ -60,7 +60,7 @@ class BookController {
 
     BookCollection.push(newBook);
 
-    return {status_code: 201, message: "Buku berhasil ditambahkan", bookId: newBook.bookId};
+    return {status_code: 201, message: "Buku berhasil ditambahkan", bookId: newBook.id};
   };
 
   /**
@@ -69,7 +69,7 @@ class BookController {
    */
   retrieve = async () => {
     const simplifiedBookCollection = BookCollection.map((book) => ({
-      id: book.bookId,
+      id: book.id,
       name: book.name,
       publisher: book.publisher,
     }));
@@ -103,7 +103,7 @@ class BookController {
     }
 
     const simplifiedBookCollection = filteredBook.map((book) => ({
-      id: book.bookId,
+      id: book.id,
       name: book.name,
       publisher: book.publisher,
     }));
@@ -119,7 +119,7 @@ class BookController {
    * @param {string} bookID
    */
   retrieveBook = async (bookID) => {
-    const book = BookCollection.find((b) => b.bookId === bookID);
+    const book = BookCollection.find((b) => b.id === bookID);
 
     if (!book) {
       throw new CustomError("Buku tidak ditemukan", 404);
@@ -128,6 +128,28 @@ class BookController {
     return {
       status_code: 200,
       book: book,
+    };
+  };
+
+  /**
+   * @param {string} bookID
+   */
+  remove = async (bookID) => {
+    const deletedBook = BookCollection.find((book) => book.id === bookID);
+
+    if (!deletedBook) {
+      throw new CustomError("Buku gagal dihapus. Id tidak ditemukan", 404);
+    }
+
+    const bookDeletion = BookCollection.filter((book) => book.id !== bookID);
+
+    BookCollection.length = 0;
+
+    bookDeletion.forEach((book) => BookCollection.push(book));
+
+    return {
+      status_code: 200,
+      message: "Buku berhasil dihapus"
     };
   };
 }

@@ -60,7 +60,12 @@ router.get("/", async (req, res) => {
 
       const bookResponse = await bookController.retrieve(query1, query2, query3);
 
-      res.json(bookResponse);
+      res.status(bookResponse.status_code).json({
+        status: "success",
+        data: {
+          books: bookResponse.bookCollection,
+        },
+      });
     } catch (error) {
       res.status(400).json({
         message: error.message || "Something went wrong, Try again later!",
@@ -77,6 +82,21 @@ router.get("/:bookId", async (req, res) => {
       data: {
         book: bookResponse.book,
       },
+    });
+  } catch (error) {
+    res.status(error.statusCode).json({
+      status: "fail",
+      message: error.message,
+    });
+  }
+});
+
+router.delete("/:bookId", async (req, res) => {
+  try {
+    const bookResponse= await bookController.remove(req.params.bookId);
+    res.status(bookResponse.status_code).json({
+      status: "success",
+      message: bookResponse.message,
     });
   } catch (error) {
     res.status(error.statusCode).json({
