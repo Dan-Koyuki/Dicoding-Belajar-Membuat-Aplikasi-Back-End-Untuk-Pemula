@@ -60,7 +60,11 @@ class BookController {
 
     BookCollection.push(newBook);
 
-    return {status_code: 201, message: "Buku berhasil ditambahkan", bookId: newBook.id};
+    return {
+      status_code: 201,
+      message: "Buku berhasil ditambahkan",
+      bookId: newBook.id,
+    };
   };
 
   /**
@@ -87,12 +91,14 @@ class BookController {
    */
   retrieve = async (query1, query2, query3) => {
     let filteredBook = BookCollection;
-    const q2 = query2 === '1';
-    const q3 = query3 === '1';
+    const q2 = query2 === "1";
+    const q3 = query3 === "1";
 
     if (query1) {
-      filteredBook = filteredBook.filter((book) => book.name.toLowerCase().includes(query1));
-    };
+      filteredBook = filteredBook.filter((book) =>
+        book.name.toLowerCase().includes(query1),
+      );
+    }
 
     if (query2) {
       filteredBook = filteredBook.filter((book) => book.reading === q2);
@@ -128,6 +134,63 @@ class BookController {
     return {
       status_code: 200,
       book: book,
+    };
+  };
+
+  /**
+   * @param {string} bookID
+   */
+  update = async (
+      bookID,
+      {name, year, author, summary, publisher, pageCount, readPage, reading},
+  ) => {
+    const updatedBook = BookCollection.find((book) => book.id === bookID);
+
+    if (!updatedBook) {
+      throw new CustomError(
+          "Buku tidak dapat diUpdate. Id tidak ditemukan",
+          404,
+      );
+    }
+
+    if (!name) {
+      throw new CustomError("Gagal memperbarui buku. Mohon isi nama buku", 400);
+    }
+
+    const yearNum = parseInt(year);
+    const pageCountNum = parseInt(pageCount);
+    const readPageNum = parseInt(readPage);
+
+    if (isNaN(yearNum) || isNaN(pageCountNum) || isNaN(readPageNum)) {
+      throw new CustomError(
+          "Invalid input. Year, pageCount, and readPage must be integers.",
+          400,
+      );
+    }
+
+    if (readPageNum > pageCountNum) {
+      throw new CustomError(
+          "Gagal memperbarui buku. readPage tidak boleh lebih besar dari pageCount",
+          400,
+      );
+    }
+
+    updatedBook = {
+      name: name,
+      year: yearNum,
+      author: author,
+      summary: summary,
+      publisher: publisher,
+      pageCount: pageCountNum,
+      readPage: readPageNum,
+      finished: pageCountNum === readPageNum ? true : false,
+      reading: reading,
+      updatedAt: new Date().toISOString(),
+    };
+
+    return {
+      status_code: 201,
+      message: "Buku berhasil diupdate",
     };
   };
 

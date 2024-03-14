@@ -91,6 +91,21 @@ BookRouter.get("/:bookId", async (req, res) => {
   }
 });
 
+BookRouter.put("/:bookId", async (req, res)=> {
+  try {
+    const bookResponse = await bookController.update(req.params.bookId, req.body);
+    res.status(bookResponse.status_code).json({
+      status: "success",
+      message: bookResponse.message,
+    });
+  } catch (error) {
+    res.status(error.statusCode).json({
+      status: "fail",
+      message: error.message,
+    });
+  }
+});
+
 BookRouter.delete("/:bookId", async (req, res) => {
   try {
     const bookResponse= await bookController.remove(req.params.bookId);
