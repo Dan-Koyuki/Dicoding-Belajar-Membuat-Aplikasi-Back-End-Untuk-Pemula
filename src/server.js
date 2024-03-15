@@ -64,11 +64,11 @@ const init = async () => {
       handler: async (request, h) => {
         try {
           const bookResponse = await bookController.insert(request.payload);
-          return {
+          return h.response({
             status: "success",
             message: bookResponse.message,
             data: bookResponse.bookId,
-          };
+          }).code(bookResponse.status_code);
         } catch (error) {
           return h
               .response({
@@ -118,12 +118,12 @@ const init = async () => {
               query3,
           );
 
-          return {
+          return h.response({
             status: "success",
             data: {
               books: bookResponse.bookCollection,
             },
-          };
+          }).code(bookResponse.status_code);
         } catch (error) {
           return h
               .response({
@@ -142,12 +142,12 @@ const init = async () => {
           const bookResponse = await bookController.retrieveBook(
               request.params.bookId,
           );
-          return {
+          return h.response({
             status: "success",
             data: {
               book: bookResponse.book,
             },
-          };
+          }).code(bookResponse.status_code);
         } catch (error) {
           return h
               .response({
@@ -167,10 +167,10 @@ const init = async () => {
               request.params.bookId,
               request.payload,
           );
-          return {
+          return h.response({
             status: "success",
             message: bookResponse.message,
-          };
+          }).code(bookResponse.status_code);
         } catch (error) {
           return h
               .response({
@@ -189,10 +189,10 @@ const init = async () => {
           const bookResponse = await bookController.remove(
               request.params.bookId,
           );
-          return {
+          return h.response({
             status: "success",
             message: bookResponse.message,
-          };
+          }).code(bookResponse.status_code);
         } catch (error) {
           return h
               .response({
