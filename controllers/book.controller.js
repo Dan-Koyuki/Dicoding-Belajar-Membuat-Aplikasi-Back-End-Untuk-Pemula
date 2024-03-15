@@ -144,13 +144,10 @@ class BookController {
       bookID,
       {name, year, author, summary, publisher, pageCount, readPage, reading},
   ) => {
-    const updatedBook = BookCollection.find((book) => book.id === bookID);
+    let updatedBook = BookCollection.find((book) => book.id === bookID);
 
     if (!updatedBook) {
-      throw new CustomError(
-          "Buku tidak dapat diUpdate. Id tidak ditemukan",
-          404,
-      );
+      throw new CustomError("Gagal memperbarui buku. Id tidak ditemukan", 404);
     }
 
     if (!name) {
@@ -190,7 +187,7 @@ class BookController {
 
     return {
       status_code: 201,
-      message: "Buku berhasil diupdate",
+      message: "Buku berhasil diperbarui",
     };
   };
 
