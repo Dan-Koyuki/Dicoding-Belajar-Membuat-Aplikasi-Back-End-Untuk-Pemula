@@ -43,14 +43,10 @@ import bookController from "../controllers/book.controller.js";
 
 const init = async () => {
   const server = _server({
-    port: 9000,
-    host: "localhost",
-    routes: {
-      cors: {
-        origin: ["*"],
-        headers: ["Accept", "Content-Type"],
-        additionalHeaders: ["X-Requested-With"],
-      },
+    "port": 9000,
+    "host": "localhost",
+    "routes": {
+      "cors": true,
     },
   });
 
