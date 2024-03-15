@@ -52,8 +52,15 @@ const init = async () => {
 
   server.route([
     {
-      method: "POST",
+      method: "GET",
       path: "/",
+      handler: async (request, h) => {
+        return "Welcome, this is Irwanto Danang Bahtiar's Bookshelf API.";
+      },
+    },
+    {
+      method: "POST",
+      path: "/books",
       handler: async (request, h) => {
         try {
           const bookResponse = await bookController.insert(request.payload);
@@ -74,7 +81,7 @@ const init = async () => {
     },
     {
       method: "GET",
-      path: "/",
+      path: "/books",
       handler: async (request, h) => {
         try {
           let query1 = "";
@@ -129,7 +136,7 @@ const init = async () => {
     },
     {
       method: "GET",
-      path: "/{bookId}",
+      path: "/books/{bookId}",
       handler: async (request, h) => {
         try {
           const bookResponse = await bookController.retrieveBook(
@@ -153,7 +160,7 @@ const init = async () => {
     },
     {
       method: "PUT",
-      path: "/{bookId}",
+      path: "/books/{bookId}",
       handler: async (request, h) => {
         try {
           const bookResponse = await bookController.update(
@@ -176,7 +183,7 @@ const init = async () => {
     },
     {
       method: "DELETE",
-      path: "/{bookId}",
+      path: "/books/{bookId}",
       handler: async (request, h) => {
         try {
           const bookResponse = await bookController.remove(
