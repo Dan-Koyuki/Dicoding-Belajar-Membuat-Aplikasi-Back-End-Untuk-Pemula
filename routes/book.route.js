@@ -100,8 +100,6 @@ BookRouter.put("/:bookId", async (req, res)=> {
     });
   } catch (error) {
     res.status(error.statusCode).json({
-      request: req.params.bookId,
-      request2: req.body,
       status: "fail",
       message: error.message,
     });
