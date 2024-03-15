@@ -144,7 +144,7 @@ class BookController {
       bookID,
       {name, year, author, summary, publisher, pageCount, readPage, reading},
   ) => {
-    let updatedBook = BookCollection.find((book) => book.id === bookID);
+    const updatedBook = BookCollection.find((book) => book.id === bookID);
 
     if (!updatedBook) {
       throw new CustomError("Gagal memperbarui buku. Id tidak ditemukan", 404);
@@ -172,18 +172,16 @@ class BookController {
       );
     }
 
-    updatedBook = {
-      name: name,
-      year: yearNum,
-      author: author,
-      summary: summary,
-      publisher: publisher,
-      pageCount: pageCountNum,
-      readPage: readPageNum,
-      finished: pageCountNum === readPageNum ? true : false,
-      reading: reading,
-      updatedAt: new Date().toISOString(),
-    };
+    updatedBook.name= name;
+    updatedBook.year= yearNum;
+    updatedBook.author= author;
+    updatedBook.summary= summary;
+    updatedBook.publisher= publisher;
+    updatedBook.pageCount= pageCountNum;
+    updatedBook.readPage= readPageNum;
+    updatedBook.finished= pageCountNum === readPageNum ? true : false;
+    updatedBook.reading= reading;
+    updatedBook.updatedAt= new Date().toISOString();
 
     return {
       status_code: 201,
