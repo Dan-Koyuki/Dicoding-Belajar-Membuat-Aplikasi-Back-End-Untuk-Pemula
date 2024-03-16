@@ -184,7 +184,7 @@ class BookController {
     updatedBook.updatedAt= new Date().toISOString();
 
     return {
-      status_code: 201,
+      status_code: 200,
       message: "Buku berhasil diperbarui",
     };
   };
